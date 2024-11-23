@@ -5,3 +5,5 @@ seaborn==0.12.2
 xgboost==1.7.6
 scikit-learn==1.2.2
 boto3==1.28.38
+python-dotenv==1.0.1
+ipykernel==6.29.5
