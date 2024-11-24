@@ -42,5 +42,40 @@ conda activate aws_pipeline
 ```bash
 pip install -r requirements.txt
 ```
+### 4.AWS CLI
 
+Run these commands to create a Kinesis Data Stream
 
+```bash
+aws kinesis create-stream \
+    --stream-name <stream_name> \
+    --shard-count 1
+
+```
+Check if the stream has been successfully created
+
+```bash
+aws kinesis describe-stream --stream-name <stream_name>
+
+```
+### 5.Install dependencies for the lambda function 
+
+```bash
+cd lambda_testing
+pip install xgboost -t .
+
+```
+### 6.Zip lambda_testing and send it to s3 bucket 
+
+### 7.create a lambda Function and Uplod to it the zip file 
+
+### 8.change the handler to lambda_testing.lambda.lambda_handler()
+
+### 9.Test the function with this exemple
+
+```bash
+cd lambda_testing
+pip install xgboost -t .
+
+```
+### 10.Create a Ec2 instance ubuntu 22.04
