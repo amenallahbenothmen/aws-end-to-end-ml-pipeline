@@ -21,7 +21,7 @@ The **Electric Power Consumption Forecasting System** is a fully operational mac
 
 Follow the steps below to set up and run the application:
 
-### 1. Clone the Repository
+### 1.Clone the Repository
 
 ```bash
 git clone https://github.com/amenallahbenothmen/aws-end-to-end-ml-pipeline.git
@@ -67,15 +67,53 @@ pip install xgboost -t .
 ```
 ### 6.Zip lambda_testing and send it to s3 bucket 
 
-### 7.create a lambda Function and Uplod to it the zip file 
+### 7.Create a lambda Function and Uplod to it the zip file 
 
-### 8.change the handler to lambda_testing.lambda.lambda_handler()
+### 8.Change the handler to lambda_testing.lambda.lambda_handler
 
 ### 9.Test the function with this exemple
 
 ```bash
-cd lambda_testing
-pip install xgboost -t .
+{
+  "Datetime": "2017-10-01 00:00:00",
+  "Temperature": 18.12,
+  "Humidity": 87.6,
+  "WindSpeed": 4.916,
+  "GeneralDiffuseFlows": 0.08,
+  "DiffuseFlows": 0.163,
+  "hour": 0,
+  "minute": 0,
+  "dayofweek": 6,
+  "quarter": 4,
+  "month": 10,
+  "day": 10,
+  "year": 2017,
+  "season": 4,
+  "dayofyear": 274,
+  "dayofmonth": 1,
+  "weekofyear": 39,
+  "is_weekend": 1,
+  "is_month_start": 1,
+  "is_month_end": 0,
+  "is_quarter_start": 1,
+  "is_quarter_end": 0,
+  "is_working_day": 0,
+  "is_business_hours": 0,
+  "is_peak_hour": 0,
+  "minute_of_day": 0,
+  "minute_of_week": 8640
+}
 
 ```
 ### 10.Create a Ec2 instance ubuntu 22.04
+
+### 11. Add the Following Security Rules
+
+![Security Rules](images/security.png)
+
+### 11.Folow the commands in commands.txt to install Grafana on the Ec2 instance
+
+```bash
+commands.txt
+```
+
