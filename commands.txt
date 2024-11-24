@@ -1,0 +1,73 @@
+Installing grafana on ubunutu 22.04 server
+
+#Update ubuntu
+sudo apt-get update -y
+
+
+#Install necessary pacakges
+sudo apt-get install wget curl gnupg2 apt-transport-https software-properties-common -y
+
+#Add gpg key
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+
+#updo repo list of ubuntu
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+
+#refresh and update apt-get
+sudo apt-get update -y
+
+#Install Grafana 
+sudo apt-get install grafana -y
+
+#Check Grafana version for successfull installation
+grafana-server -v
+
+#start grafana service
+sudo systemctl start grafana-server
+
+#Add auto start grafana
+sudo systemctl enable grafana-server
+
+#Check grafana service status
+systemctl status grafana-server
+
+#Check grafana running port
+ss -antpl | grep 3000
+
+#Install ngix to Add reverse proxy
+sudo apt-get install nginx -y
+
+#Add ngix config to redirect port 4
+sudo nano /etc/nginx/conf.d/grafana.conf
+
+server {
+        server_name enter-your-ec2-dnsname here;
+        listen 80 ;
+        access_log /var/log/nginx/grafana.log;
+
+
+    location / {
+                proxy_pass http://localhost:3000;
+        proxy_set_header Host $http_host;
+                proxy_set_header X-Forwarded-Host $host:$server_port;
+                proxy_set_header X-Forwarded-Server $host;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+}
+
+
+
+#Increase bucket size to avoid long host name error
+sudo nano /etc/nginx/nginx.conf
+
+server_names_hash_bucket_size to 128;
+
+#Test ngix
+sudo nginx -t
+
+
+#restart ngix
+sudo systemctl restart nginx
+
+
+Now access the server with ec2-dnsname from public with admin / admin

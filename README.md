@@ -16,6 +16,7 @@ The **Electric Power Consumption Forecasting System** is a fully operational mac
 - **Python 3.9** 
 - **AWS CLI**
 - **Grafana**
+- **S3**
 
 ## Setup and Installation
 
@@ -42,6 +43,7 @@ conda activate aws_pipeline
 ```bash
 pip install -r requirements.txt
 ```
+
 ### 4.AWS CLI
 
 Run these commands to create a Kinesis Data Stream
@@ -65,13 +67,16 @@ cd lambda_testing
 pip install xgboost -t .
 
 ```
-### 6.Zip lambda_testing and send it to s3 bucket 
 
-### 7.Create a lambda Function and Uplod to it the zip file 
+### 6.Create an s3 bucket and run the notebook
 
-### 8.Change the handler to lambda_testing.lambda.lambda_handler
+### 7.Zip lambda_testing and send it to s3 bucket 
 
-### 9.Test the function with this exemple
+### 8.Create a lambda Function and Uplod to it the zip file 
+
+### 9.Change the handler to lambda_testing.lambda.lambda_handler
+
+### 10.Test the function with this exemple
 
 ```bash
 {
@@ -105,15 +110,62 @@ pip install xgboost -t .
 }
 
 ```
-### 10.Create a Ec2 instance ubuntu 22.04
 
-### 11. Add the Following Security Rules
+### 10.Create a crawler and a database run the crawler
+
+### 11.Create a Ec2 instance ubuntu 22.04
+
+### 12.Add the Following Security Rules
 
 ![Security Rules](images/security.png)
 
-### 11.Folow the commands in commands.txt to install Grafana on the Ec2 instance
+### 13.Folow the commands in commands.txt to install Grafana on the Ec2 instance
 
 ```bash
 commands.txt
 ```
+### 14.Go to the ec2 instance create aws credentials file and put the aws credentials
+
+```bash
+cd ..
+cd ..
+cd usr/share/grafana/.aws
+touch credentials
+
+```
+
+### 15.Add a new connection and select Amazon Athena
+
+![Add Connection](images/addconnection.png)
+![Amazon Athena](images/athena.png)
+![Connection Details](images/details.png)
+
+### 16.Create a new Dashbord with this SQL 
+
+```bash
+
+    CAST(
+        CONCAT(
+            CAST(CAST(t.year AS INT) AS VARCHAR), '-', 
+            LPAD(CAST(CAST(t.month AS INT) AS VARCHAR), 2, '0'), '-', 
+            LPAD(CAST(CAST(t.day AS INT) AS VARCHAR), 2, '0'), ' ', 
+            LPAD(CAST(CAST(t.hour AS INT) AS VARCHAR), 2, '0'), ':', 
+            LPAD(CAST(CAST(t.minute AS INT) AS VARCHAR), 2, '0')
+        ) AS TIMESTAMP
+    ) AS datetime,
+    r.powerconsumption_zone1 AS zone1,
+    r.powerconsumption_zone2 AS zone2,
+    r.powerconsumption_zone3 AS zone3
+FROM test t
+JOIN results r 
+  ON CAST(CAST(t.year AS INT) AS VARCHAR) = CAST(CAST(r.year AS INT) AS VARCHAR)
+     AND CAST(CAST(t.month AS INT) AS VARCHAR) = CAST(CAST(r.month AS INT) AS VARCHAR)
+     AND CAST(CAST(t.day AS INT) AS VARCHAR) = CAST(CAST(r.day AS INT) AS VARCHAR)
+     AND CAST(CAST(t.hour AS INT) AS VARCHAR) = CAST(CAST(r.hour AS INT) AS VARCHAR)
+     AND CAST(CAST(t.minute AS INT) AS VARCHAR) = CAST(CAST(r.minute AS INT) AS VARCHAR);
+
+```
+![Dashnoard](images/dashboard.png)
+
+
 
