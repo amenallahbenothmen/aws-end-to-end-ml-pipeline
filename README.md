@@ -22,11 +22,12 @@ The **Electric Power Consumption Forecasting System** is a fully operational mac
 
 Follow the steps below to set up and run the application:
 
-### 1.Clone the Repository
+### 1.Clone the Repository and Download the dataset
 
 ```bash
 git clone https://github.com/amenallahbenothmen/aws-end-to-end-ml-pipeline.git
 cd aws-end-to-end-ml-pipeline
+https://www.kaggle.com/datasets/fedesoriano/electric-power-consumption
 
 ```
 
@@ -42,6 +43,7 @@ conda activate aws_pipeline
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
 ### 4.AWS CLI
